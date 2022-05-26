@@ -4,6 +4,7 @@ import Story from './Story'
 function MadlibsForm() {
     const handleSubmit = event => {
         event.preventDefault();
+        setShowStory(true)
         console.log('submitted')
     }
 
@@ -14,6 +15,8 @@ function MadlibsForm() {
         color: ''
     })
 
+    const [showStory, setShowStory] = useState(false)
+
     const handleChange = event => {
         const { name, value } = event.target
         setFormData(data => ({
@@ -22,10 +25,21 @@ function MadlibsForm() {
         }))
     }   
 
+    const onClick = event => {
+        event.preventDefault()
+        setShowStory(false)
+        setFormData({
+            noun: '',
+            noun2: '',
+            adjective: '',
+            color: ''
+        })
+    }
+
     return (
         <div className='Madlibs'>
             <h1>Madlibs!</h1>
-            {!formData ? (
+            {!showStory ? (
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='noun'>Noun</label>
                     <input 
@@ -58,7 +72,16 @@ function MadlibsForm() {
                     <button>Get Story</button>
                 </form>
             ) : (
-                <Story />
+                <div>
+                    <Story 
+                        noun = {formData.noun}
+                        noun2 = {formData.noun2}
+                        adjective = {formData.adjective}
+                        color = {formData.color}
+                    />
+                    <button onClick={onClick}>Restart</button>
+                </div>
+                
             )}
             
         </div>
